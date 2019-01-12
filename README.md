@@ -15,6 +15,8 @@ Remove image watermarks with numpy
 So far all I've done is obtain some still/animated images (from
 _Kirby Of The Stars_) and to focus on the watermark region in question.
 
+![](img/kirby003_01a.png)
+
 The file `kirby003_01a.png` can be used to extract the binary watermark,
 since it falls in a region of black screen fill.
 
