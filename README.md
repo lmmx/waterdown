@@ -29,8 +29,9 @@ watered = img[6:20, 9:109]
 bin_wm = rgb2grey(watered)
 ```
 
-The values in `bin_wm` are a binary (i.e. greyscale only) equivalent to
-the RGB(A) values given by `imageio.imread` (equivalent to a numpy array).
+The values in `bin_wm` are a greyscale equivalent to the RGB(A) values
+given by `imageio.imread` (i.e., the watermark is white with low opacity,
+so there's no point representing it as 3 colours).
 
 An example value can be shown to be simply a decimal interpretation of RGB:
 
