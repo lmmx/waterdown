@@ -4,13 +4,11 @@ Remove image watermarks with numpy
 
 ## Project goals
 
-- Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
-- Inpaint/offset the watermark region so as to unmark the image
-
-## Potential stretch goals
-
-- Calculate the alpha opacity of the watermark
-- Apply to a gif (of a different size to the still images)
+- [ ] Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
+- [ ] Inpaint/offset the watermark region so as to unmark the image
+- [x] Calculate the alpha opacity of the watermark
+  - 24/255, or around 9.4%
+- [ ] Apply to a gif (of a different size to the still images)
 
 ## Example usage (interactive)
 
