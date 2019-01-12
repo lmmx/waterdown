@@ -95,20 +95,29 @@ call(['convert', '../img/doc/wm*_grey*.png', '../img/doc/wm_greyscale.gif'])
 ![](img/doc/wm_greyscale_multi.gif)
 
 ...for good measure, do the same for a couple non-black backgrounded,
-dark grey backgrounded images (`kirby003_03a.png` and `kirby003_03b.png`).
+dark grey b/g images (`kirby003_03a.png` and `kirby003_03b.png`),
+along with a black b/g fade-out screen (`kirby003_04.png`).
 
 ```py
 img4 = read_image('kirby003_03a.png')
 img5 = read_image('kirby003_03b.png')
-gr_wm4 = rgb2grey(img2[6:20, 9:109])
-gr_wm5 = rgb2grey(img3[6:20, 9:109])
-normed4 = (gr_wm4 - np.min(gr_wm4)) * (1/np.max(gr_wm4))
-normed5 = (gr_wm5 - np.min(gr_wm5)) * (1/np.max(gr_wm5))
-# assert np.min(normed4) == np.min(normed5) == 0
-# assert np.max(normed4) == np.max(normed5) == 1
+img6 = read_image('kirby003_04.png')
+gr_wm4 = rgb2grey(img4[6:20, 9:109])
+gr_wm5 = rgb2grey(img5[6:20, 9:109])
+gr_wm6 = rgb2grey(img6[6:20, 9:109])
+prenorm4 = gr_wm4 - (np.min(gr_wm4) * 1.4)
+prenorm5 = gr_wm5 - (np.min(gr_wm5) * 1.4)
+# Increase the background minimisation by a factor of 40%,
+# clipping any values that dip below zero (a_max=None as not needed)
+# Otherwise 4 and 5 end up with a light grey watermark background
+normed4 = np.clip(prenorm4, 0, None) * (1/np.max(prenorm4))
+normed5 = np.clip(prenorm5, 0, None) * (1/np.max(prenorm5))
+normed6 = gr_wm6 * (1/np.max(gr_wm6))
+# assert np.min(normed4) == np.min(normed5) == np.min(normed6) == 0
+# assert np.max(normed4) == np.max(normed5) == np.max(normed6) == 1
 ```
 
-...and an animation with all 5:
+...and an animation with all 6:
 
 ```py
 call(['convert', '../img/doc/wm*_grey*.png', '../img/doc/wm_greyscale_all.gif'])
