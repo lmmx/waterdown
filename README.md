@@ -44,10 +44,48 @@ above in the variable `watered`...
 normed = bin_wm * (1/np.max(bin_wm))
 plt.imshow(normed, cmap=plt.get_cmap('gray'))
 plt.show()
-# fig = plt.figure()
-# fig.set_size_inches(6, 2)
+# fig = plt.figure(figsize=(6,2))
 # plt.imshow(normed, cmap=plt.get_cmap('gray'))
 # fig.savefig('../img/doc/wm_greyscale.png')
 ```
 
 ![](img/doc/wm_greyscale.png)
+
+Then for greater accuracy, do it twice more:
+
+```py
+img2 = read_image('kirby003_01b.png')
+img3 = read_image('kirby003_01c.png')
+bin_wm2 = rgb2grey(img2[6:20, 9:109])
+bin_wm3 = rgb2grey(img3[6:20, 9:109])
+normed2 = bin_wm2 * (1/np.max(bin_wm2))
+normed3 = bin_wm3 * (1/np.max(bin_wm3))
+
+fig=plt.figure(figsize=(6, 4))
+fig.add_subplot(3,1,1)
+plt.imshow(normed, cmap=plt.get_cmap('gray'))
+fig.add_subplot(3,1,2)
+plt.imshow(normed2, cmap=plt.get_cmap('gray'))
+fig.add_subplot(3,1,3)
+plt.imshow(normed3, cmap=plt.get_cmap('gray'))
+fig.savefig('../img/doc/wm_greyscale_multi.png')
+```
+
+![](img/doc/wm_greyscale_multi.png)
+
+...and as animated GIF:
+
+```py
+fig = plt.figure(figsize=(6,2))
+plt.imshow(normed2, cmap=plt.get_cmap('gray'))
+fig.savefig('../img/doc/wm2_greyscale.png')
+
+fig = plt.figure(figsize=(6,2))
+plt.imshow(normed3, cmap=plt.get_cmap('gray'))
+fig.savefig('../img/doc/wm3_greyscale.png')
+
+from subprocess import call
+call(['convert', '../img/doc/wm*_grey*.png', '../img/doc/wm_greyscale.gif'])
+```
+
+![](img/doc/wm_greyscale.gif)

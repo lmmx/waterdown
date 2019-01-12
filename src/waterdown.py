@@ -32,7 +32,9 @@ def show_original(img_name):
 
 ###################### Basic image functions ##########################
 
-def get_wm(img):
+def load_wm():
+    img_name = 'kirby003_01a.png'
+    img = read_image(img_name)
     watered = img[6:20, 13:119]
     return watered
 
