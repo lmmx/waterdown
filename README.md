@@ -4,7 +4,8 @@ Remove image watermarks with numpy
 
 ## Project goals
 
-- [ ] Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
+- [x] Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
+  - ⇒ [img/doc/wm_greyscale.png](img/doc/wm_greyscale.png)
 - [ ] Inpaint/offset the watermark region so as to unmark the image
 - [x] Calculate the alpha opacity of the watermark
   - 24/255, or around 9.4%
@@ -13,7 +14,8 @@ Remove image watermarks with numpy
 ## Example usage (interactive)
 
 So far all I've done is obtain some still/animated images (from
-_Kirby Of The Stars_) and to focus on the watermark region in question.
+[_Kirby Of The Stars_](https://en.wikipedia.org/wiki/Kirby_of_the_Stars)!)
+and to focus on the watermark region in question.
 
 ![](img/kirby003_01a.png)
 
