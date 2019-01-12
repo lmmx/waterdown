@@ -4,8 +4,9 @@ Remove image watermarks with numpy
 
 ## Project goals
 
-- [x] Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
-  - ⇒ [img/doc/wm_greyscale.png](img/doc/wm_greyscale.png)
+- [ ] Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
+  - [x] ⇒ [img/doc/wm_greyscale_multi.gif](img/doc/wm_greyscale_multi.gif)
+  - [ ] ⇒ consensus watermark estimate TBC
 - [ ] Inpaint/offset the watermark region so as to unmark the image
 - [x] Calculate the alpha opacity of the watermark
   - 24/255, or around 9.4%
@@ -88,4 +89,4 @@ from subprocess import call
 call(['convert', '../img/doc/wm*_grey*.png', '../img/doc/wm_greyscale.gif'])
 ```
 
-![](img/doc/wm_greyscale.gif)
+![](img/doc/wm_greyscale_multi.gif)
