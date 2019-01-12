@@ -37,3 +37,15 @@ An example value can be shown to be simply a decimal interpretation of RGB:
 
 Watermark removal should then just be a matter of offsetting the value stored
 above in the variable `watered`...
+
+```py
+normed = bin_wm * (1/np.max(bin_wm))
+plt.imshow(normed, cmap=plt.get_cmap('gray'))
+plt.show()
+# fig = plt.figure()
+# fig.set_size_inches(6, 2)
+# plt.imshow(normed, cmap=plt.get_cmap('gray'))
+# fig.savefig('../img/doc/wm_greyscale.png')
+```
+
+![](img/doc/wm_greyscale.png)
