@@ -1,6 +1,6 @@
 # waterdown
 
-Remove image watermarks with numpy
+Detecting, reconstructing, and masking image watermarks with numpy
 
 ## Project goals
 
