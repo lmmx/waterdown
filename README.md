@@ -32,7 +32,6 @@ An example value can be shown to be simply a decimal interpretation of RGB:
 - `watered[10,10]` ⇒ `Array([ 24,  24,  24, 255], dtype=uint8)`
 - `bin_wm[10,10]` ⇒ `0.09411764705882353`
 - `24/255` ⇒ `0.09411764705882353`
-```
 
 Watermark removal should then just be a matter of offsetting the value stored
 above in the variable `watered`...
