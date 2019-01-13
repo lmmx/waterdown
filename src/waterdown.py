@@ -30,6 +30,22 @@ def show_original(img_name):
     show_image(img)
     return img
 
+def get_grads(img):
+    """
+    Convolve Sobel operator independently in x and y directions,
+    to give the image gradient.
+    """
+    dx = ndimage.sobel(normed, 0)  # horizontal derivative
+    dy = ndimage.sobel(normed, 1)  # vertical derivative
+    return dx, dy
+
+def get_grad(img, normalise_rgb=False):
+    dx, dy = get_grads(img)
+    mag = np.hypot(dx, dy)  # magnitude
+    if normalise_rgb:
+        mag *= 255.0 / numpy.max(mag)
+    return mag
+
 ###################### Basic image functions ##########################
 
 def load_wm():

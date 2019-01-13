@@ -12,7 +12,12 @@ Detecting, reconstructing, and masking image watermarks with numpy
   - 24/255, or around 9.4%
 - [ ] Apply to a gif (of a different size to the still images)
 
-## Example usage (interactive)
+## Demo
+
+- In part 1 of this demo, it is explained how watermarks are extracted from images
+- In part 2, the extracted watermarks are loaded from file and used as a mask on new images
+
+### 1: Extracting watermarks
 
 So far all I've done is obtain some still/animated images (from
 [_Kirby Of The Stars_](https://en.wikipedia.org/wiki/Kirby_of_the_Stars)!)
@@ -124,3 +129,34 @@ call(['convert', '../img/doc/wm*_grey*.png', '../img/doc/wm_greyscale_all.gif'])
 ```
 
 ![](img/doc/wm_greyscale_all.gif)
+
+However there needs to be a single consensus watermark, using these sampled images.
+This can then be used across images to mask the watermark, as well as reloaded from a single file.
+
+_Google Research_ published [a 2017 CVPR paper on this topic](https://ai.googleblog.com/2017/08/making-visible-watermarks-more-effective.html)
+([project site](https://watermark-cvpr17.github.io/), using hundreds of samples (at higher resolution)
+with excellent results, and went with the median.
+
+- That paper is really worth reading, and presents this as a 'multi-image matting' optimisation problem.
+- Unlike their paper, I have a blank backgrounded watermarked image, so can avoid the 'chicken and egg' problem
+  of simultaneous watermark estimation and detection (which they resolve by iterated rounds of estimation/detection)
+- Their paper doesn't describe how they get the image gradient (e.g. Sobel vs. Canny). I opt to convolve a 
+  \[2D\] [Sobel operator](https://en.wikipedia.org/wiki/Sobel_operator) horizontally and vertically,
+  then take the hypotenuse to get the magnitude ([as here](https://stackoverflow.com/a/7186582/2668831)).
+  - I note that the GR team's method calculates median of the 2 directions independently, _then_ takes the magnitude
+    (rather than taking the median of 2D Sobels per image, i.e. `mag = np.hypot(median_dx, median_dy)`).
+
+N.B. - `get_grads` returns a tuple `(dx, dy)`, `get_grad` (singular) takes their magnitude (the hypotenuse),
+below the `grads` variable is a list of six `(dx, dy)` tuples, from which independent medians are taken.
+
+```py
+imgs = [normed, normed2, normed3, normed4, normed5, normed6]
+grads = [get_grads(i) for i in imgs]
+med_dx = np.median([m[0] for m in grads])
+med_dy = np.median([m[1] for m in grads])
+med_mag = np.hypot(med_dx, med_dy)
+```
+
+### 2: Removing watermarks
+
+TBC...
