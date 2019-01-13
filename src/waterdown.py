@@ -35,8 +35,8 @@ def get_grads(img):
     Convolve Sobel operator independently in x and y directions,
     to give the image gradient.
     """
-    dx = ndimage.sobel(normed, 0)  # horizontal derivative
-    dy = ndimage.sobel(normed, 1)  # vertical derivative
+    dx = ndimage.sobel(img, 0)  # horizontal derivative
+    dy = ndimage.sobel(img, 1)  # vertical derivative
     return dx, dy
 
 def get_grad(img, normalise_rgb=False):

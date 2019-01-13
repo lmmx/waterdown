@@ -146,16 +146,18 @@ with excellent results, and went with the median.
   - I note that the GR team's method calculates median of the 2 directions independently, _then_ takes the magnitude
     (rather than taking the median of 2D Sobels per image, i.e. `mag = np.hypot(median_dx, median_dy)`).
 
-N.B. - `get_grads` returns a tuple `(dx, dy)`, `get_grad` (singular) takes their magnitude (the hypotenuse),
+N.B. - `get_grads` returns a tuple `(dx, dy)`, whereas `get_grad` (singular) takes their magnitude (the hypotenuse),
 below the `grads` variable is a list of six `(dx, dy)` tuples, from which independent medians are taken.
 
 ```py
 imgs = [normed, normed2, normed3, normed4, normed5, normed6]
 grads = [get_grads(i) for i in imgs]
-med_dx = np.median([m[0] for m in grads])
-med_dy = np.median([m[1] for m in grads])
+med_dx = np.median([m[0] for m in grads], 0)
+med_dy = np.median([m[1] for m in grads], 0)
 med_mag = np.hypot(med_dx, med_dy)
 ```
+
+![](img/doc/wm_med_grad.png)
 
 ### 2: Removing watermarks
 
