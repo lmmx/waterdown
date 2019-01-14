@@ -180,6 +180,15 @@ med_mag = np.hypot(med_dx, med_dy)
 For now at least, I'm just going to take this as the estimate (since I can't figure out how to do
 "Poisson reconstruction", and the Google researchers don't cite an implementation to look up.
 
+Saving this estimate in the `data` directory now, note that read/write modes for pickle `load`/`dump`
+must be 'rb'/'wb' not just 'r'/'w' (the b stands for binary):
+
+```py
+import pickle
+pickle_file = open('../data/est_grad_wmark.p', 'wb')
+pickle.dump(med_mag, pickle_file)
+```
+
 ### 2: Watermark detection
 
 Following the guidance of Dekel et al. still, the next step is as follows:
