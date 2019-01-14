@@ -184,10 +184,10 @@ For now at least, I'm just going to take this as the estimate (since I can't fig
 
 Following the guidance of Dekel et al. still, the next step is as follows:
 
-> Given the current estimate ∇̂Wm, we detect the watermark in each of the images using Chamfer
+> Given the current estimate ∇Ŵm, we detect the watermark in each of the images using Chamfer
 distance commonly used for template matching in object detection and recognition. Specifically,
 for a given watermarked image, we obtain a verbose edge map (using Canny edge detector), and
-compute its Euclidean distance transform, which is then convolved with ∇̂Wm (flipped horizontally
+compute its Euclidean distance transform, which is then convolved with ∇Ŵm (flipped horizontally
 and vertically) to get the Chamfer distance from each pixel to the closest edge. Lastly, the
 watermark position is taken to be the pixel with minimum distance in the map. We found this
 detection method to be very robust, providing high detection rates for diverse watermarks
