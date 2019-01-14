@@ -156,6 +156,7 @@ with excellent results, and went with the median.
   covered in [Szeliski](http://szeliski.org/Book/drafts/SzeliskiBook_20100903_draft.pdf#page=482) (pp. 460-1),
   the breadth of applications of which are summarised in this 2017 blog post:
   [_Some Variational Image Processing: Poisson Image Editing and its applications in Python_](https://sandipanweb.wordpress.com/2017/10/03/some-variational-image-processing-possion-image-editing-and-its-applications/)
+  - N.B. Szeliski focuses on a 2004 paper that _"rather than solving the Poisson PDEs… directly minimise a variational problem"_
   - In short, the problem (here of finding the image from its gradient) is presented in the continuous domain
     as a constrained variational optimisation problem, then the 'edited' output is that from a discrete Poisson solver.
 
