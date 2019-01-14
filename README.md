@@ -151,14 +151,18 @@ with excellent results, and went with the median.
 - Their paper specifies a "0.4 threshold" for the Canny edge detection used to find a bounding box on the watermark,
   despite the Canny algorithm (to the best of my understanding) taking 2 threshold parameters (min and max)
 - The image gradients are used to obtain the "initial matted watermark" by "Poisson reconstruction", which appears
-  to be a reference to a 2003 SIGGRAPH paper from Microsoft Research,
-  [_Poisson Image Editing_](https://www.cs.virginia.edu/~connelly/class/2014/comp_photo/proj2/poisson.pdf),
-  covered in [Szeliski](http://szeliski.org/Book/drafts/SzeliskiBook_20100903_draft.pdf#page=482) (pp. 460-1),
+  to be a reference to either:
+  - a 2003 SIGGRAPH paper from Microsoft Research,
+    [_Poisson Image Editing_](https://www.cs.virginia.edu/~connelly/class/2014/comp_photo/proj2/poisson.pdf),
   the breadth of applications of which are summarised in this 2017 blog post:
   [_Some Variational Image Processing: Poisson Image Editing and its applications in Python_](https://sandipanweb.wordpress.com/2017/10/03/some-variational-image-processing-possion-image-editing-and-its-applications/)
-  - N.B. Szeliski focuses on a 2004 paper that _"rather than solving the Poisson PDEs… directly minimise a variational problem"_
-  - In short, the problem (here of finding the image from its gradient) is presented in the continuous domain
-    as a constrained variational optimisation problem, then the 'edited' output is that from a discrete Poisson solver.
+  - a 2004 SIGGRAPH paper that _"rather than solving the Poisson PDEs… directly minimise a variational problem"_,
+    covered in [Szeliski](http://szeliski.org/Book/drafts/SzeliskiBook_20100903_draft.pdf#page=482) (pp. 460-1),
+    [_Interactive Digital Photomontage_](http://kneecap.cs.berkeley.edu/papers/photomontage/photomontage.pdf)
+  - ...or (perhaps more likely, but I can't find a reference) a 2D version of what is known as "Poisson surface reconstruction",
+    in which point clouds or a mesh is derived from points (which seems most in line with the concept of image reconstruction,
+    the above 2 papers are mainly about 'blending').
+    - Wikipedia [has a section on this technique](https://en.wikipedia.org/wiki/Geometry_processing#Poisson_reconstruction_from_surface_points_to_mesh)
 
 N.B. - `get_grads` returns a tuple `(dx, dy)`, whereas `get_grad` (singular) takes their magnitude (the hypotenuse),
 below the `grads` variable is a list of six `(dx, dy)` tuples, from which independent medians are taken.
