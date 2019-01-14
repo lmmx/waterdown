@@ -14,8 +14,8 @@ Detecting, reconstructing, and masking image watermarks with numpy
 
 ## Demo
 
-- In part 1 of this demo, it is explained how watermarks are extracted from images
-- In part 2, the extracted watermarks are loaded from file and used as a mask on new images
+- In part 1 of this demo, it is explained how watermarks are extracted from images (estimated)
+- In part 2, the estimated watermark [image gradient] is used to detect the watermark in new images
 
 ### 1: Extracting watermarks
 
@@ -177,6 +177,18 @@ med_mag = np.hypot(med_dx, med_dy)
 
 ![](img/doc/wm_med_grad.png)
 
-### 2: Removing watermarks
+For now at least, I'm just going to take this as the estimate (since I can't figure out how to do
+"Poisson reconstruction", and the Google researchers don't cite an implementation to look up.
 
-TBC...
+### 2: Watermark detection
+
+Following the guidance of Dekel et al. still, the next step is as follows:
+
+> Given the current estimate ∇̂Wm, we detect the watermark in each of the images using Chamfer
+distance commonly used for template matching in object detection and recognition. Specifically,
+for a given watermarked image, we obtain a verbose edge map (using Canny edge detector), and
+compute its Euclidean distance transform, which is then convolved with ∇̂Wm (flipped horizontally
+and vertically) to get the Chamfer distance from each pixel to the closest edge. Lastly, the
+watermark position is taken to be the pixel with minimum distance in the map. We found this
+detection method to be very robust, providing high detection rates for diverse watermarks
+and different opacity levels.
