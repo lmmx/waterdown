@@ -140,11 +140,16 @@ with excellent results, and went with the median.
 - That paper is really worth reading, and presents this as a 'multi-image matting' optimisation problem.
 - Unlike their paper, I have a blank backgrounded watermarked image, so can avoid the 'chicken and egg' problem
   of simultaneous watermark estimation and detection (which they resolve by iterated rounds of estimation/detection)
-- Their paper doesn't describe how they get the image gradient (e.g. Sobel vs. Canny). I opt to convolve a 
+- Their paper doesn't describe how they get the image gradient (e.g. Sobel vs. Scharr derivative). I opt to convolve a 
   \[2D\] [Sobel operator](https://en.wikipedia.org/wiki/Sobel_operator) horizontally and vertically,
   then take the hypotenuse to get the magnitude ([as here](https://stackoverflow.com/a/7186582/2668831)).
+  - Element-wise, the hypotenuse is equal to the square root of squared dx plus squared dy
+    (see [numpy.hypot](https://docs.scipy.org/doc/numpy/reference/generated/numpy.hypot.html) docs/the
+    [OpenCV Canny edge detection tutorial](https://docs.opencv.org/4.0.0/da/d22/tutorial_py_canny.html) for more info)
   - I note that the GR team's method calculates median of the 2 directions independently, _then_ takes the magnitude
     (rather than taking the median of 2D Sobels per image, i.e. `mag = np.hypot(median_dx, median_dy)`).
+- Their paper specifies a "0.4 threshold" for the Canny edge detection used to find a bounding box on the watermark,
+  despite the Canny algorithm (to the best of my understanding) taking 2 threshold parameters (min and max)
 
 N.B. - `get_grads` returns a tuple `(dx, dy)`, whereas `get_grad` (singular) takes their magnitude (the hypotenuse),
 below the `grads` variable is a list of six `(dx, dy)` tuples, from which independent medians are taken.
