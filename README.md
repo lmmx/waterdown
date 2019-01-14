@@ -150,6 +150,14 @@ with excellent results, and went with the median.
     (rather than taking the median of 2D Sobels per image, i.e. `mag = np.hypot(median_dx, median_dy)`).
 - Their paper specifies a "0.4 threshold" for the Canny edge detection used to find a bounding box on the watermark,
   despite the Canny algorithm (to the best of my understanding) taking 2 threshold parameters (min and max)
+- The image gradients are used to obtain the "initial matted watermark" by "Poisson reconstruction", which appears
+  to be a reference to a 2003 SIGGRAPH paper from Microsoft Research,
+  [_Poisson Image Editing_](https://www.cs.virginia.edu/~connelly/class/2014/comp_photo/proj2/poisson.pdf),
+  covered in [Szeliski](http://szeliski.org/Book/drafts/SzeliskiBook_20100903_draft.pdf#page=482) (pp. 460-1),
+  the breadth of applications of which are summarised in this 2017 blog post:
+  [_Some Variational Image Processing: Poisson Image Editing and its applications in Python_](https://sandipanweb.wordpress.com/2017/10/03/some-variational-image-processing-possion-image-editing-and-its-applications/)
+  - In short, the problem (here of finding the image from its gradient) is presented in the continuous domain
+    as a constrained variational optimisation problem, then the 'edited' output is that from a discrete Poisson solver.
 
 N.B. - `get_grads` returns a tuple `(dx, dy)`, whereas `get_grad` (singular) takes their magnitude (the hypotenuse),
 below the `grads` variable is a list of six `(dx, dy)` tuples, from which independent medians are taken.
