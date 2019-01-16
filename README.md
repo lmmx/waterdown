@@ -2,11 +2,20 @@
 
 Detecting, reconstructing, and masking image watermarks with numpy
 
+### Requirements:
+
+- `numpy`
+- `matplotlib`
+- `imageio`
+- `scipy`
+- `cv2` (I'm using OpenCV 4.0)
+- `skimage`
+
 ## Project goals
 
-- [ ] Use numpy to detect and reproduce the original watermark (produce output from which to load for future use)
+- [x] Use numpy to estimate the original watermark (and produce output from which to load it for future use)
   - [x] ⇒ [img/doc/wm_greyscale_multi.gif](img/doc/wm_greyscale_multi.gif)
-  - [ ] ⇒ consensus watermark estimate TBC
+  - [x] ⇒ [data/est_grad_wmark.p](data/est_grad_wmark.p)
 - [ ] Inpaint/offset the watermark region so as to unmark the image
 - [x] Calculate the alpha opacity of the watermark
   - 24/255, or around 9.4%
@@ -150,6 +159,9 @@ with excellent results, and went with the median.
     (rather than taking the median of 2D Sobels per image, i.e. `mag = np.hypot(median_dx, median_dy)`).
 - Their paper specifies a "0.4 threshold" for the Canny edge detection used to find a bounding box on the watermark,
   despite the Canny algorithm (to the best of my understanding) taking 2 threshold parameters (min and max)
+  - I think this actually refers to the sigma value demonstrated in [this blog post](https://www.pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/),
+    i.e. upper/lower are set at +/- 40% of the median of the single channel pixel intensities (the post notes that
+    33% is often optimal, which makes 0.4 a reasonable choice).
 - The image gradients are used to obtain the "initial matted watermark" by "Poisson reconstruction", which appears
   to be a reference to either:
   - a 2003 SIGGRAPH paper from Microsoft Research,
@@ -201,3 +213,37 @@ and vertically) to get the Chamfer distance from each pixel to the closest edge.
 watermark position is taken to be the pixel with minimum distance in the map. We found this
 detection method to be very robust, providing high detection rates for diverse watermarks
 and different opacity levels.
+
+So firstly, we run Canny edge detection (N.B. OpenCV 4.0 was released in early 2019, and OpenCV
+recently became pip installable - so [no trouble](https://www.pyimagesearch.com/2018/09/19/pip-install-opencv/)
+to `pip` install it within `virtualenv`).
+
+```py
+# read in image (with black b/g behind watermark) as greyscale & uint8 dtype
+kirby = read_image('../img/kirby003_01a.png', grey=True, uint8=True)
+edges = auto_canny(kirby)
+```
+
+![](img/doc/canny_demo.png)
+
+Next compute its Euclidean distance transform and convolve this with the estimated watermark
+(flipped horizontally and vertically). The watermark position is the pixel with minimum distance in the map.
+
+- This section was helpfully explained [here](https://stackoverflow.com/a/53040334/2668831) that this is
+  _cross-correlation_ with the image
+- At first I understand from my reading of the paper that this was supposed to be the edge map of the gradient,
+  not the edge map of the watermarked image:
+  > We crop ∇Ŵm to remove boundary regions by computing the magnitude of ∇Ŵm(p) and taking the bounding box of
+    its edge map (using Canny with 0.4 threshold).
+- ...but the result of that was clearly wrong, whereas the edge map of the _median watermarked image_ looked
+  about right. Code for this is as follows (I scale up to 255 to avoid the decimal values from 0-1 being
+  rounded down to 0 when casting to uint8):
+
+```py
+med_img = pickle.load(open('../data/med_wmark.p', 'rb'))
+med_img = med_img * (255 / np.max(med_grad))
+med_img = np.uint8(med_img) # Must be uint8 for Canny edge detection to run on it
+edged_med_img = auto_canny(med_img)
+```
+
+![](img/doc/edged_med_img.png)
