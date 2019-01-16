@@ -222,6 +222,7 @@ to `pip` install it within `virtualenv`).
 # read in image (with black b/g behind watermark) as greyscale & uint8 dtype
 kirby = read_image('../img/kirby003_01a.png', grey=True, uint8=True)
 edges = auto_canny(kirby)
+save_image(edges, (30,17), '../img/doc/canny_demo.png')
 ```
 
 ![](img/doc/canny_demo.png)

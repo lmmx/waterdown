@@ -68,6 +68,7 @@ def save_image(image, figsize, save_path, ticks=False, grey=True):
         plt.imshow(image)
     if not ticks:
         plt.xticks([]), plt.yticks([])
+    plt.tight_layout()
     fig.savefig(save_path)
     return
 
