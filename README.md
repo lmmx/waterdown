@@ -259,3 +259,16 @@ show_image(med_mag[bb[0]:bb[1]+1, bb[2]:bb[3]+1], True)
 
 ![](img/doc/crop_edged_med_img.png)
 ![](img/doc/crop_med_mag.png)
+
+However, setting this range to have a green overlay in the original shows that the boundaries are still watermarked,
+so this doesn't quite work for my case (in which the watermarks are probably much smaller and lower quality, hence
+the blurry edges that shouldn't be overcropped).
+
+```py
+green = to_rgb(np.copy(med_img))
+green[bb[0]:bb[1]+1, bb[2]:bb[3]+1] = [0, 200, 0]
+plt.imshow(green, alpha=0.5)
+show_image(med_img, bw=True, alpha=0.5)
+```
+
+![](img/doc/green_bbox.png)

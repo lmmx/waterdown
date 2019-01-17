@@ -30,15 +30,15 @@ def read_image(img_name, grey=False, use_opencv=False, uint8=False):
             img = np.uint8(img)
     return img
 
-def show_image(img, bw=False, no_ticks=True, title=''):
+def show_image(img, bw=False, alpha=1, no_ticks=True, title=''):
     """
     Show an image using a provided pixel row array.
     If bw is True, displays single channel images in black and white.
     """
     if not bw:
-        plt.imshow(img)
+        plt.imshow(img, alpha=alpha)
     else:
-        plt.imshow(img, cmap=plt.get_cmap('gray'))
+        plt.imshow(img, alpha=alpha, cmap=plt.get_cmap('gray'))
     if no_ticks:
         plt.xticks([]), plt.yticks([])
     if title != '':
@@ -116,6 +116,19 @@ def bbox(image):
     a = np.where(img != 0)
     bbox = np.min(a[0]), np.max(a[0]), np.min(a[1]), np.max(a[1])
     return bbox
+
+###################### Image channel functions #########################
+
+def to_rgb(im):
+    """
+    Turn a single valued array to a 3-tuple valued array of RGB, via
+    http://www.socouldanyone.com/2013/03/converting-grayscale-to-rgb
+    -with-numpy.html (solution 1a)
+    """
+    w, h = im.shape
+    ret = np.empty((w, h, 3), dtype=np.uint8)
+    ret[:, :, 2] = ret[:, :, 1] = ret[:, :, 0] = im
+    return ret
 
 ###################### Watermarking functions ##########################
 
