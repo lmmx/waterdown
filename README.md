@@ -267,8 +267,15 @@ the blurry edges that shouldn't be overcropped).
 ```py
 green = to_rgb(np.copy(med_img))
 green[bb[0]:bb[1]+1, bb[2]:bb[3]+1] = [0, 200, 0]
-plt.imshow(green, alpha=0.5)
 show_image(med_img, bw=True, alpha=0.5)
+plt.imshow(med_img, cmap=plt.get_cmap('gray'))
+plt.imshow(green, alpha=0.7
+# fig = plt.figure(figsize=(6,2))
+# plt.xticks([]), plt.yticks([])
+# plt.tight_layout()
+# plt.imshow(med_img, cmap=plt.get_cmap('gray')))
+# plt.imshow(green, alpha=0.7)
+# fig.savefig('../img/doc/green_bbox.png')
 ```
 
 ![](img/doc/green_bbox.png)
