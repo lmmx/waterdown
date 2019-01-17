@@ -248,3 +248,14 @@ edged_med_img = auto_canny(med_img)
 ```
 
 ![](img/doc/edged_med_img.png)
+
+The bounding box is just the min/max on x and y axes of zero values, which can be found with `np.where(img != 0)`:
+
+```py
+bb = bbox(edged_med_img)
+show_image(edged_med_img[bb[0]:bb[1]+1, bb[2]:bb[3]+1], True)
+show_image(med_mag[bb[0]:bb[1]+1, bb[2]:bb[3]+1], True)
+```
+
+![](img/doc/crop_edged_med_img.png)
+![](img/doc/crop_med_mag.png)

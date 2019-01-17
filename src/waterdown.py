@@ -108,6 +108,15 @@ def auto_canny(image, sigma=0.4):
     edged = Canny(image, lower, upper)
     return edged
 
+def bbox(image):
+    """
+    Return a bounding box (rmin, rmax, cmin, cmax). To retrieve the
+    bounded region, access `image[rmin:rmax+1, cmin:cmax+1]`.
+    """
+    a = np.where(img != 0)
+    bbox = np.min(a[0]), np.max(a[0]), np.min(a[1]), np.max(a[1])
+    return bbox
+
 ###################### Watermarking functions ##########################
 
 def load_wm():
